@@ -6,11 +6,13 @@ environment:
     PYTHON_ARCH: "32"
 
     CONAN_REFERENCE: "android-sdk/26.1.1"
-    CONAN_USERNAME: "Tereius"
+    CONAN_USERNAME: "tereius"
     CONAN_LOGIN_USERNAME: "Tereius"
     CONAN_CHANNEL: "stable"
     CONAN_UPLOAD: "https://api.bintray.com/conan/tereius/public-conan"
     CONAN_REMOTES: "https://api.bintray.com/conan/bincrafters/public-conan"
+    CONAN_PASSWORD:
+        secure: 1ZYohUykKTMP2JZ/H9octIstO7GL9Wl9Ym+N4G0XLvSxr27L749N69l/9gk4KNO4
     
     matrix:
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
