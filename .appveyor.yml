@@ -5,6 +5,7 @@ environment:
     PYTHON_VERSION: "2.7.8"
     PYTHON_ARCH: "32"
 
+    CONAN_BUILD_POLICY: "missing"
     CONAN_REFERENCE: "android-sdk/26.1.1"
     CONAN_USERNAME: "tereius"
     CONAN_LOGIN_USERNAME: "Tereius"
