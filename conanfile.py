@@ -45,9 +45,11 @@ class AndroidSDKConan(ConanFile):
         if self.settings.os_build == "Windows":
             self.run('echo y|"%s/tools/bin/sdkmanager" --install platforms;android-%s' % (self.source_folder, str(self.settings.os.api_level)))
             self.run('echo y|"%s/tools/bin/sdkmanager" --install build-tools;%s' % (self.source_folder, str(self.options.bildToolsRevision)))
+            self.run('echo y|"%s/tools/bin/sdkmanager" --install platform-tools' % (self.source_folder))
         else:
             self.run('yes | "%s/tools/bin/sdkmanager" --install platforms;android-%s' % (self.source_folder, str(self.settings.os.api_level)))
             self.run('yes | "%s/tools/bin/sdkmanager" --install build-tools;%s' % (self.source_folder, str(self.options.bildToolsRevision)))
+            self.run('yes | "%s/tools/bin/sdkmanager" --install platform-tools' % (self.source_folder))
 
     sdk_copied = False
 
