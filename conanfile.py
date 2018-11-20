@@ -65,8 +65,9 @@ class AndroidSDKConan(ConanFile):
     def package_info(self):
         sdk_root = self.package_folder
 
-        self.output.info('Creating SDK_ROOT environment variable: %s' % sdk_root)
+        self.output.info('Creating SDK_ROOT, ANDROID_SDK_ROOT environment variable: %s' % sdk_root)
         self.env_info.SDK_ROOT = sdk_root
+        self.env_info.ANDROID_SDK_ROOT = sdk_root
 
         self.output.info('Creating ANDROID_BUILD_TOOLS_REVISION environment variable: %s' % str(self.options.bildToolsRevision))
         self.env_info.ANDROID_BUILD_TOOLS_REVISION = str(self.options.bildToolsRevision)
