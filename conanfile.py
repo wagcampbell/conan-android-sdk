@@ -15,7 +15,7 @@ class AndroidSDKConan(ConanFile):
     license = "Apache 2.0"
     short_paths = True
     no_copy_source = True
-    build_requires = "java_installer/8.0.144@bincrafters/stable"
+    build_requires = "java_installer/8.0.144@tereius/stable"
     options = {"bildToolsRevision": "ANY"}
     default_options = "bildToolsRevision=28.0.2"
     settings = {"os_build": ["Windows", "Linux", "Macos"],
