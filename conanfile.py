@@ -4,6 +4,8 @@
 from conans import ConanFile, tools
 from conans.errors import ConanException
 from shutil import copytree
+from subprocess import Popen, PIPE, STDOUT
+import time
 
 
 class AndroidSDKConan(ConanFile):
@@ -42,14 +44,11 @@ class AndroidSDKConan(ConanFile):
             raise ConanException("Unsupported build os: " + self.settings.os_build)
 
     def build(self):
-        if self.settings.os_build == "Windows":
-            self.run('echo y|"%s/tools/bin/sdkmanager" --install platforms;android-%s' % (self.source_folder, str(self.settings.os.api_level)))
-            self.run('echo y|"%s/tools/bin/sdkmanager" --install build-tools;%s' % (self.source_folder, str(self.options.bildToolsRevision)))
-            self.run('echo y|"%s/tools/bin/sdkmanager" --install platform-tools' % (self.source_folder))
-        else:
-            self.run('yes | "%s/tools/bin/sdkmanager" --install platforms;android-%s' % (self.source_folder, str(self.settings.os.api_level)))
-            self.run('yes | "%s/tools/bin/sdkmanager" --install build-tools;%s' % (self.source_folder, str(self.options.bildToolsRevision)))
-            self.run('yes | "%s/tools/bin/sdkmanager" --install platform-tools' % (self.source_folder))
+        p = Popen(["%s/tools/bin/sdkmanager" % (self.source_folder), '--licenses'], universal_newlines=True ,shell=True, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
+        p.communicate(input='y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\n')
+        self.run('"%s/tools/bin/sdkmanager" --install platforms;android-%s' % (self.source_folder, str(self.settings.os.api_level)))
+        self.run('"%s/tools/bin/sdkmanager" --install build-tools;%s' % (self.source_folder, str(self.options.bildToolsRevision)))
+        self.run('"%s/tools/bin/sdkmanager" --install platform-tools' % (self.source_folder))
 
     sdk_copied = False
 
