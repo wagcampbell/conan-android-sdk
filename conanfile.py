@@ -44,11 +44,18 @@ class AndroidSDKConan(ConanFile):
             raise ConanException("Unsupported build os: " + self.settings.os_build)
 
     def build(self):
-        p = Popen(["%s/tools/bin/sdkmanager" % (self.source_folder), '--licenses'], universal_newlines=True ,shell=True, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
-        p.communicate(input='y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\n')
-        self.run('"%s/tools/bin/sdkmanager" "platforms;android-%s"' % (self.source_folder, str(self.settings.os.api_level)))
-        self.run('"%s/tools/bin/sdkmanager" "build-tools;%s"' % (self.source_folder, str(self.options.buildToolsRevision)))
-        self.run('"%s/tools/bin/sdkmanager" "platform-tools"' % (self.source_folder))
+        if platform.system() == "Windows":
+            p1 = Popen(["%s/tools/bin/sdkmanager" % (self.source_folder), ' "platforms;android-%s"' % (str(self.settings.os.api_level))], universal_newlines=True, shell=True, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
+            p1.communicate(input='y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\n')
+            p2 = Popen(["%s/tools/bin/sdkmanager" % (self.source_folder), ' "build-tools;%s"' % (str(self.options.buildToolsRevision))], universal_newlines=True, shell=True, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
+            p2.communicate(input='y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\n')
+            p3 = Popen(["%s/tools/bin/sdkmanager" % (self.source_folder), ' "platform-tools"'], universal_newlines=True, shell=True, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
+            p3.communicate(input='y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\n')
+        else:
+            self.run('yes | %s/tools/bin/sdkmanager "platforms;android-%s"' % (self.source_folder, str(self.settings.os.api_level)))
+            self.run('yes | %s/tools/bin/sdkmanager "build-tools;%s"' % (self.source_folder, str(self.options.buildToolsRevision)))
+            self.run('yes | %s/tools/bin/sdkmanager "platform-tools"' % (self.source_folder))
+
 
     sdk_copied = False
 
