@@ -10,16 +10,16 @@ import time
 
 class AndroidSDKConan(ConanFile):
     name = "android-sdk"
-    version = "26.1.1"
+    version = "25.2.5"
     description = "Android SDK Tools is a component for the Android SDK. It includes the complete set of development and debugging tools for Android"
-    url = "https://github.com/Tereius/conan-android-sdk"
+    url = "https://github.com/wagcampbell/conan-android-sdk"
     homepage = "https://developer.android.com/studio/releases/sdk-tools"
     license = "Apache 2.0"
     short_paths = True
     no_copy_source = True
-    build_requires = "java_installer/8.0.144@tereius/stable"
-    options = {"bildToolsRevision": "ANY"}
-    default_options = "bildToolsRevision=28.0.2"
+    build_requires = "java_installer/8.0.144@bincrafters/stable"
+    options = {"buildToolsRevision": "ANY"}
+    default_options = "buildToolsRevision=28.0.3"
     settings = {"os_build": ["Windows", "Linux", "Macos"],
                 "os": ["Android"]}
 
@@ -32,14 +32,14 @@ class AndroidSDKConan(ConanFile):
 
     def source(self):
         if self.settings.os_build == 'Windows':
-            source_url = "https://dl.google.com/android/repository/sdk-tools-windows-4333796.zip"
-            tools.get(source_url, sha256="7e81d69c303e47a4f0e748a6352d85cd0c8fd90a5a95ae4e076b5e5f960d3c7a")
+            source_url = "https://dl.google.com/android/repository/tools_r25.2.5-windows.zip"
+            tools.get(source_url)
         elif self.settings.os_build == 'Linux':
-            source_url = "https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip"
-            tools.get(source_url, sha256="92ffee5a1d98d856634e8b71132e8a95d96c83a63fde1099be3d86df3106def9")
+            source_url = "https://dl.google.com/android/repository/tools_r25.2.5-linux.zip"
+            tools.get(source_url)
         elif self.settings.os_build == 'Macos':
-            source_url = "https://dl.google.com/android/repository/sdk-tools-darwin-4333796.zip"
-            tools.get(source_url, sha256="ecb29358bc0f13d7c2fa0f9290135a5b608e38434aad9bf7067d0252c160853e")
+            source_url = "https://dl.google.com/android/repository/tools_r25.2.5-macosx.zip"
+            tools.get(source_url)
         else:
             raise ConanException("Unsupported build os: " + self.settings.os_build)
 
@@ -47,7 +47,7 @@ class AndroidSDKConan(ConanFile):
         p = Popen(["%s/tools/bin/sdkmanager" % (self.source_folder), '--licenses'], universal_newlines=True ,shell=True, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
         p.communicate(input='y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\n')
         self.run('"%s/tools/bin/sdkmanager" --install platforms;android-%s' % (self.source_folder, str(self.settings.os.api_level)))
-        self.run('"%s/tools/bin/sdkmanager" --install build-tools;%s' % (self.source_folder, str(self.options.bildToolsRevision)))
+        self.run('"%s/tools/bin/sdkmanager" --install build-tools;%s' % (self.source_folder, str(self.options.buildToolsRevision)))
         self.run('"%s/tools/bin/sdkmanager" --install platform-tools' % (self.source_folder))
 
     sdk_copied = False
@@ -64,9 +64,10 @@ class AndroidSDKConan(ConanFile):
     def package_info(self):
         sdk_root = self.package_folder
 
-        self.output.info('Creating SDK_ROOT, ANDROID_SDK_ROOT environment variable: %s' % sdk_root)
+        self.output.info('Creating SDK_ROOT, ANDROID_SDK_ROOT, ANDROID_HOME environment variable: %s' % sdk_root)
         self.env_info.SDK_ROOT = sdk_root
         self.env_info.ANDROID_SDK_ROOT = sdk_root
+        self.env_info.ANDROID_HOME = sdk_root
 
-        self.output.info('Creating ANDROID_BUILD_TOOLS_REVISION environment variable: %s' % str(self.options.bildToolsRevision))
-        self.env_info.ANDROID_BUILD_TOOLS_REVISION = str(self.options.bildToolsRevision)
+        self.output.info('Creating ANDROID_BUILD_TOOLS_REVISION environment variable: %s' % str(self.options.buildToolsRevision))
+        self.env_info.ANDROID_BUILD_TOOLS_REVISION = str(self.options.buildToolsRevision)
