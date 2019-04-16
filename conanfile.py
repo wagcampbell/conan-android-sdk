@@ -33,13 +33,13 @@ class AndroidSDKConan(ConanFile):
     def source(self):
         if self.settings.os_build == 'Windows':
             source_url = "https://dl.google.com/android/repository/tools_r25.2.5-windows.zip"
-            tools.get(source_url)
+            tools.get(source_url, keep_permissions=True)
         elif self.settings.os_build == 'Linux':
             source_url = "https://dl.google.com/android/repository/tools_r25.2.5-linux.zip"
-            tools.get(source_url)
+            tools.get(source_url, keep_permissions=True)
         elif self.settings.os_build == 'Macos':
             source_url = "https://dl.google.com/android/repository/tools_r25.2.5-macosx.zip"
-            tools.get(source_url)
+            tools.get(source_url, keep_permissions=True)
         else:
             raise ConanException("Unsupported build os: " + self.settings.os_build)
 
