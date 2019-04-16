@@ -46,9 +46,9 @@ class AndroidSDKConan(ConanFile):
     def build(self):
         p = Popen(["%s/tools/bin/sdkmanager" % (self.source_folder), '--licenses'], universal_newlines=True ,shell=True, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
         p.communicate(input='y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\n')
-        self.run('"%s/tools/bin/sdkmanager" --install platforms;android-%s' % (self.source_folder, str(self.settings.os.api_level)))
-        self.run('"%s/tools/bin/sdkmanager" --install build-tools;%s' % (self.source_folder, str(self.options.buildToolsRevision)))
-        self.run('"%s/tools/bin/sdkmanager" --install platform-tools' % (self.source_folder))
+        self.run('"%s/tools/bin/sdkmanager" platforms;android-%s' % (self.source_folder, str(self.settings.os.api_level)))
+        self.run('"%s/tools/bin/sdkmanager" build-tools;%s' % (self.source_folder, str(self.options.buildToolsRevision)))
+        self.run('"%s/tools/bin/sdkmanager" platform-tools' % (self.source_folder))
 
     sdk_copied = False
 
