@@ -52,9 +52,9 @@ class AndroidSDKConan(ConanFile):
             p3 = Popen(["%s/tools/bin/sdkmanager" % (self.source_folder), ' "platform-tools"'], universal_newlines=True, shell=True, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
             p3.communicate(input='y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\n')
         else:
-            self.run('yes | %s/tools/bin/sdkmanager "platforms;android-%s"' % (self.source_folder, str(self.settings.os.api_level)))
-            self.run('yes | %s/tools/bin/sdkmanager "build-tools;%s"' % (self.source_folder, str(self.options.buildToolsRevision)))
-            self.run('yes | %s/tools/bin/sdkmanager "platform-tools"' % (self.source_folder))
+            self.run('echo y | %s/tools/bin/sdkmanager "platforms;android-%s"' % (self.source_folder, str(self.settings.os.api_level)))
+            self.run('echo y | %s/tools/bin/sdkmanager "build-tools;%s"' % (self.source_folder, str(self.options.buildToolsRevision)))
+            self.run('echo y | %s/tools/bin/sdkmanager "platform-tools"' % (self.source_folder))
 
 
     sdk_copied = False
