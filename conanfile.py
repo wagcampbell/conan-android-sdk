@@ -6,6 +6,7 @@ from conans.errors import ConanException
 from shutil import copytree
 from subprocess import Popen, PIPE, STDOUT
 import time
+import posixpath
 
 
 class AndroidSDKConan(ConanFile):
