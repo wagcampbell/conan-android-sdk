@@ -62,10 +62,11 @@ class AndroidSDKConan(ConanFile):
     def package(self):
         # Called twice because of 'no_copy_source'. First from source-, then from build-dir
         if not self.sdk_copied:
-            copytree("build-tools", self.package_folder + "/build-tools")
-            copytree("licenses", self.package_folder + "/licenses")
-            copytree("platforms", self.package_folder + "/platforms")
-            copytree("tools", self.package_folder + "/tools")
+            copytree(posixpath.join(self.source_folder, "build-tools"), posixpath.join(self.package_folder, "build-tools"))
+            copytree(posixpath.join(self.source_folder, "licenses"), posixpath.join(self.package_folder, "licenses"))
+            copytree(posixpath.join(self.source_folder, "platforms"), posixpath.join(self.package_folder, "platforms"))
+            copytree(posixpath.join(self.source_folder, "platform-tools"), posixpath.join(self.package_folder, "platform-tools"))
+            copytree(posixpath.join(self.source_folder, "tools"), posixpath.join(self.package_folder, "tools"))
             self.sdk_copied = True
 
     def package_info(self):
